@@ -1,0 +1,16 @@
+[Unit]
+Description=LDAP Authentication Service for Mumble Server
+Documentation=https://github.com/mumble-voip/mumble-scripts/issues/19
+After=network.target mumble-server.service
+
+[Service]
+Type=simple
+User=mumble-server
+Group=mumble-server
+WorkingDirectory=/etc/mumble-scripts
+ExecStart=/usr/local/sbin/LDAPauth.py
+StandardOutput=syslog
+StandardError=syslog
+
+[Install]
+WantedBy=multi-user.target

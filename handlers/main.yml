@@ -24,3 +24,9 @@
     daemon_reload: True
     name: mumble-web
     state: restarted
+
+- name: restart mumble-ldapauth
+  systemd:
+    daemon_reload: True
+    name: mumble-ldapauth
+    state: restarted

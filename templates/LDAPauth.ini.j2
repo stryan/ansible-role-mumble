@@ -1,0 +1,71 @@
+;Player configuration
+[user]
+;If you do not already know what it is just leave it as it is
+id_offset       = 1000000000
+;Reject users if the authenticator experiences an internal error during authentication
+reject_on_error = True
+;Reject users that are not found when bind_dn is used with non-user credentials.
+;Setting this to False will cause a fall-through when the user is not found in LDAP.
+reject_on_miss  = True
+
+;Ice configuration
+[ice]
+host            = {{ murmur_ice_host }}
+port            = {{ murmur_ice_port }}
+slice           = {{ murmur_ice_slice }}
+secret          = {{ murmur_icesecretread }}
+watchdog        = 30
+
+; LDAP specific configuration
+[ldap]
+; Use bind_dn and bind_pass if you use non-user credentials for searches.
+{% if murmur_ldap_bind_dn %}
+bind_dn = {{ murmur_ldap_bind_dn }}
+{% else %}
+; bind_dn =
+{% endif %}
+{% if murmur_ldap_bind_pass %}}
+bind_pass = {{ murmur_ldap_bind_pass }}
+{% else %}
+; bind_pass = 
+{% endif %}
+users_dn = {{ murmur_ldap_users_dn }}
+ldap_uri = {{ murmur_ldap_uri }}
+; Use discover_dn to find the user DN by searching
+discover_dn = {{ murmur_ldap_discover_dn }}
+username_attr = {{ murmur_ldap_username_attr }}
+number_attr = {{ murmur_ldap_number_attr }}
+display_attr = {{ murmur_ldap_display_attr }}
+{% if murmur_ldap_group_dn %}
+group_dn = {{ murmur_ldap_group_dn }}
+{% else %}
+group_dn =
+{% endif %}
+{% if murmur_ldap_group_attr %}
+group_attr = uniqueMember
+{% else %}
+;group_attr =
+{% endif %}
+; Uncomment and set below to provide more info from LDAP
+provide_info = {{ murmur_ldap_provide_info }}
+mail_attr = {{ murmur_ldap_mail_attr }}
+; Uncomment to provide list of registered users from LDAP
+provide_users = {{ murmur_ldap_provide_users }}
+
+; Uncomment to use StartTLS without cert check
+; use_start_tls = True
+
+;Murmur configuration
+[murmur]
+;List of virtual server IDs, empty = all
+servers      = 
+
+;Logging configuration
+[log]
+; Available loglevels: 10 = DEBUG (default) | 20 = INFO | 30 = WARNING | 40 = ERROR
+level   =
+file    = {{ murmur_ldap_logfile }}
+
+[iceraw]
+Ice.ThreadPool.Server.Size = 5
+

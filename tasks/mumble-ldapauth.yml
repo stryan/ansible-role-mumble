@@ -1,0 +1,42 @@
+---
+
+- name: install dependencies
+  apt:
+    pkg: "{{ item }}"
+  loop:
+    - python-ldap
+    - python-zeroc-ice
+    - zeroc-ice-slice
+
+- name: install ldap auth script
+  copy:
+    src: files/LDAPauth.py
+    dest: /usr/local/sbin/
+    mode: '0755'
+
+- name: copy mumble-ldapauth unit file
+  copy:
+    src: files/mumble-ldapauth.service
+    dest: /etc/systemd/system/mumble-ldapauth.service
+  register: servicefile
+  notify: restart mumble-ldapauth
+
+- name: create mumble-scripts config directory
+  file:
+    path: /etc/mumble-scripts
+    state: directory
+    mode: '0755'
+
+- name: configure mumble-ldapauth
+  template:
+    src: LDAPauth.ini.j2
+    dest: /etc/mumble-scripts/LDAPauth.ini
+    owner: root
+    group: root
+    mode: 0644
+
+- name: enable and start mumble-ldapauth
+  systemd:
+    name: mumble-ldapauth
+    enabled: True
+    state: started

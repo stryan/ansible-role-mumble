@@ -66,6 +66,20 @@ mumble_web_config: ""
 # mumble_web_supplementary_groups:
 #   - letsencrypt
 
-mumble_web_listen: "443"
-mumble_web_ssl_activated: True
-mumble_web_ssl_target: True
+# mumble-ldap-auth settings
+murmur_ldapauth: False
+murmur_ice_host: 127.0.0.1
+murmur_ice_port: 6502
+murmur_ice_slice: Murmur.ice
+murmur_ldap_users_dn: ou=Users,dc=example,dc=com
+murmur_ldap_uri: ldaps://ldap.example.com
+murmur_ldap_group_dn: ""
+murmur_ldap_group_attr: ""
+murmur_ldap_discover_dn: true
+murmur_ldap_username_attr: uid
+murmur_ldap_number_attr: roomNumber
+murmur_ldap_display_attr: cn
+murmur_ldap_provide_info: true
+murmur_ldap_mail_attr: mail
+murmur_ldap_provide_users: true
+murmur_ldap_logfile: /var/log/mumble-server/LDAPauth.log
